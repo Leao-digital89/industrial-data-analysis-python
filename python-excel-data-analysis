@@ -1,0 +1,27 @@
+import pandas as pd
+
+df = pd.read_excel("producao_aeronaves.xlsx")
+
+total_pecas = df["Quantidade"].sum()
+
+total_defeitos = df["Defeitos"].sum()
+
+agrupado = df.groupby("Modelo")[["Quantidade", "Defeitos"]].sum()
+
+agrupado["Porcentagem Defeitos (%)"] = (
+    agrupado["Defeitos"] / agrupado["Quantidade"]
+) * 100
+
+custo_total = df.groupby("Modelo")["Custo"].sum()
+
+print("\nTOTAL DE PEÇAS PRODUZIDAS:")
+print(total_pecas)
+
+print("\nTOTAL DE DEFEITOS:")
+print(total_defeitos)
+
+print("\nPORCENTAGEM DE DEFEITOS POR MODELO:")
+print(agrupado["Porcentagem Defeitos (%)"])
+
+print("\nCUSTO TOTAL POR AERONAVE:")
+print(custo_total)
